@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-17 minutes
+17 minutes mmmm
 @section('content')
     <div class="container">
         <div class="col-md-3">
