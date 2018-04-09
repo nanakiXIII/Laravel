@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'ConversationController@index')->name('home');
 Route::get('/conversation', 'ConversationController@index')->name('conversation');
-Route::get('/converation/{id}', 'ConversationController@show')->name('conversation.show');
+Route::get('/conversation/{user}', 'ConversationController@show')->name('conversation.show');

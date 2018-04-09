@@ -13,7 +13,8 @@ class ConversationController extends Controller
         return view('conversation/index', compact('users'));
 
     }
-    public function show(int $id){
-        
+    public function show(User $user){
+        $users = User::select('name', 'id')->where('id', '!=', Auth::user()->id)->get();
+        return view('conversation/show', compact('users', 'user'));
     }
 }
