@@ -20,3 +20,7 @@ Auth::routes();
 Route::get('/home', 'ConversationController@index')->name('home');
 Route::get('/conversation', 'ConversationController@index')->name('conversation');
 Route::get('/conversation/{user}', 'ConversationController@show')->name('conversation.show');
+Route::post('/conversation/{user}', 'ConversationController@store');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

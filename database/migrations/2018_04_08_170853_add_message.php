@@ -18,7 +18,7 @@ class AddMessage extends Migration
             $table->integer('from_id')->unsigned();
             $table->integer('to_id')->unsigned();
             $table->foreign('from_id', 'from')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('to_id', 'from')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('to_id', 'to')->references('id')->on('users')->onDelete('cascade');
             $table->text('content');
             $table->timestamp('created_at')->useCurrent();
             $table->dateTime('read_at')->nullable();
