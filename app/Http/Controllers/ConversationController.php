@@ -23,6 +23,7 @@ class ConversationController extends Controller
 
     public function __construct(ConversationRepository $conversationRepository, AuthManager $auth){
 
+        $this->middleware('auth');
         $this->r = $conversationRepository;
         $this->auth = $auth;
 
