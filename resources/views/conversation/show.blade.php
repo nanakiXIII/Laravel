@@ -1,10 +1,9 @@
 @extends('layouts.app')
 @section('content')
-
-53 minutes !
+ 67 Minutes
     <div class="container">
         <div class="row">
-            @include('conversation.users', ['users' => $users])
+            @include('conversation.users', ['users' => $users, 'unread' => $unread])
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">{{ $user->name }}</div>
@@ -16,7 +15,7 @@
                                 </a>
                             </div>
                         @endif
-                        @foreach($messages as $message)
+                        @foreach(array_reverse($messages->items()) as $message)
                             <div class="row">
                             <div class="col-md-10 {{ $message->from->id !== $user->id ? 'offset-md-2 text-right' : '' }}">
                                     <p>

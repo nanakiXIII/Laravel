@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container">
-       @include('conversation.users', ['users' => $users])
+       @include('conversation.users', ['users' => $users, 'unread' => $unread])
     </div>
 @endsection
