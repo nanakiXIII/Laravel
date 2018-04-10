@@ -9,7 +9,7 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function talkTo(User $user, User $to){
+    public function talkTo (User $user, User $to) {
         return $user->id !== $to->id;
     }
 

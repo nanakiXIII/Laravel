@@ -12,78 +12,67 @@ class ConversationRepository {
      * @var User
      */
     private $user;
-
     /**
      * @var Message
      */
     private $message;
 
-    public function __construct(User $user, Message $message){
-
+    public function __construct(User $user, Message $message)
+    {
         $this->user = $user;
         $this->message = $message;
     }
-    
-    public function getConversations(int $userId){
 
+    public function getConversations (int $userId) {
         $conversations = $this->user->newQuery()
-                    ->select('name', 'id')
-                    ->where('id', '!=', $userId)
-                    ->get();
+            ->select('name', 'id')
+            ->where('id', '!=', $userId)
+            ->get();
         return $conversations;
     }
 
     public function createMessage(string $content, int $from, int $to)
     {
-
         return $this->message->newQuery()->create([
             'content' => $content,
             'from_id' => $from,
             'to_id' => $to,
             'created_at' => Carbon::now()
         ]);
-
     }
 
-    public function getMessagesFor(int $from, int $to): Builder{
-
+    public function getMessagesFor(int $from, int $to): Builder
+    {
         return $this->message->newQuery()
-            ->whereRaw("((from_id = $from AND to_id = $to) OR( from_id = $to AND to_id = $from))")
+            ->whereRaw("((from_id = $from AND to_id = $to) OR (from_id = $to AND to_id = $from))")
             ->orderBy('created_at', 'DESC')
             ->with([
-                'from' => function($query){ return $query->select('name', 'id');}
+                'from' => function ($query) { return $query->select('name', 'id'); }
             ]);
-
-
     }
 
     /**
      * Récupère le nombre de messages non lus pour chaque conversation
      * @param int $userId
-     * @return Builder[]
+     * @return Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Query\Builder[]|\Illuminate\Support\Collection
      */
-
-    public function unreadCount(int $userId){
-
+    public function unreadCount (int $userId) {
         return $this->message->newQuery()
-                    ->where('to_id', $userId)
-                    ->groupBy('from_id')
-                    ->selectRaw('from_id, count(id) as count')
-                    ->whereRaw('read_at IS NULL')
-                    ->get()
-                    ->pluck('count', 'from_id');
-
+            ->where('to_id', $userId)
+            ->groupBy('from_id')
+            ->selectRaw('from_id, COUNT(id) as count')
+            ->whereRaw('read_at IS NULL')
+            ->get()
+            ->pluck('count', 'from_id');
     }
 
     /**
-     * Marque tous les message de cet utilisateur comme lu
+     * Marque tous les messages de cet utilisateur comme lu
      * @param $id
      */
-
-    public function readAllFrom(int $from, int $to){
-
+    public function readAllFrom(int $from, int $to)
+    {
         $this->message->where('from_id', $from)->where('to_id', $to)->update(['read_at' => Carbon::now()]);
-
     }
 
 }

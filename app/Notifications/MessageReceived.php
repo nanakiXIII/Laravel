@@ -11,11 +11,15 @@ use Illuminate\Notifications\Messages\MailMessage;
 class MessageReceived extends Notification
 {
     use Queueable;
+    /**
+     * @var Message
+     */
+    private $message;
 
     /**
      * Create a new notification instance.
      *
-     * @params Message $message
+     * @param Message $message
      */
     public function __construct(Message $message)
     {
@@ -42,9 +46,9 @@ class MessageReceived extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line($this->message->from->name . ' vous a envoyé un nouvau message')
+                    ->line($this->message->from->name . ' vous a envoyé un message')
                     ->line($this->message->content)
-                    ->action('Voir le message', route('conversation.show',$this->message->from_id));
+                    ->action('Voir le message', route('conversations.show', $this->message->from_id));
     }
 
     /**

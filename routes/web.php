@@ -17,13 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'ConversationController@index')->name('home');
-Route::get('/conversation', 'ConversationController@index')->name('conversation');
-Route::get('/conversation/{user}', 'ConversationController@show')
+Route::get('/home', 'ConversationsController@index')->name('home');
+Route::get('/conversations', 'ConversationsController@index')->name('conversations');
+Route::get('/conversations/{user}', 'ConversationsController@show')
     ->middleware('can:talkTo,user')
-    ->name('conversation.show');
-Route::post('/conversation/{user}', 'ConversationController@store')
-    ->middleware('can:talkTo,user');
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+    ->name('conversations.show');
+Route::post('/conversations/{user}', 'ConversationsController@store')->middleware('can:talkTo,user');
